@@ -7,6 +7,7 @@ console.log("Divisão: ", divisao(10, 5));
 
 import moment from 'moment';
 function calcularIdade(anoNascimento) {
+    
 const anoatual = moment().year();
 return anoatual - anoNascimento
  }
