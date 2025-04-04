@@ -5,7 +5,7 @@ import Personagens from './Personagens';
 
 export default function Animes (props){
 
-    const {nome, descricao} = props
+    const {nome, descricao, imagem, personagens} = props
 
     return(
         <Card>
@@ -17,7 +17,7 @@ export default function Animes (props){
             <Card.Actions>
             <FlatList
               horizontal
-              data={municipios}
+              data={personagens}
               renderItem={({ item }) => (
                 <Personagens
                   nome={item.nome}

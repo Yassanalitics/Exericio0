@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
+import Animes from './componentes/Animes';
 
 export default function App() {
-  const  ListadeFavs =[
+  const  ListadeFavs=[
     {
       nome:'Jojo Bizarre Adventure',
       imagem: 'https://i.pinimg.com/474x/a0/ea/c9/a0eac9c611f89cf008da6aceea28fc4a.jpg',
@@ -30,7 +31,7 @@ export default function App() {
     },
     {
       nome:'Viland Saga',
-      imagem: 'https://picsum.photos/700',
+      imagem: 'https://i.pinimg.com/474x/02/c5/bb/02c5bb5ca3faf5128ac68d54043276cc.jpg',
       descricao: 'Após o assassinato do pai, o jovem Thorfinn entra para o bando de mercenários comandado pelo assassino e tenta encontrar a chance perfeita de se vingar.',
       personagens: [
         {
@@ -53,7 +54,7 @@ export default function App() {
     },
     {
       nome:'kusuriya no hitorigoto',
-      imagem: 'https://picsum.photos/700',
+      imagem: 'https://i.pinimg.com/474x/4d/55/2d/4d552dfe88b85c7f1cbf4ff10f5dea43.jpg',
       descricao: 'Ambientada em um país fictício, baseado na China Imperial durante a Dinastia Tang, a série segue Maomao, uma jovem que trabalhava como apotecária em um distrito periférico, que é sequestrada e vendida ao Palácio Imperial como serva.',
       personagens: [
         {
@@ -76,7 +77,7 @@ export default function App() {
     },
     {
       nome:'Kimetsu no yaiba',
-      imagem: 'https://picsum.photos/700',
+      imagem: 'https://i.pinimg.com/236x/59/a3/6a/59a36a307d8896102df01e7a532d42e7.jpg',
       descricao: ' A jornada de Tanjiro Kamado, um jovem que se torna um caçador de demônios para salvar sua irmã Nezuko, que foi transformada em um demônio. ',
       personagens: [
         {
@@ -111,6 +112,8 @@ export default function App() {
         <Animes
         nome={item.nome}
         descricao={item.descricao}
+        imagem={item.imagem}
+        personagens={item.personagens}
         />
       )}
       />
@@ -126,6 +129,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#9FB3DF',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20
+    paddingTop: 30
   },
 });
