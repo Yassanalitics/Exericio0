@@ -44,7 +44,7 @@ export default function App() {
         },
         {
           nome:'Thorkell',
-          imagem:' https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRqMaCV4eWQwc6djWcMLVDMFgz4EmX33wkTyGkoNUeeP6SVYWAOykO6vXIOeC80XIW-Kb55mWoNpYuGb7klQi5KvjE0ZKym_XOSFhFMbDVbZ',
+          imagem:' https://i.pinimg.com/236x/2d/ac/4c/2dac4c3d25801753ecb89414a981f64d.jpg',
         },
         {
           nome:'thors',
@@ -105,7 +105,7 @@ export default function App() {
    <View style={styles.container}>
       <StatusBar style="auto" />
       <Text variant='displaySmall'>Lista de Animes</Text>
-      
+    
       <FlatList
       data={ListadeFavs}
       renderItem={({item}) => (
@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#9FB3DF',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 30
+    paddingTop: 50
   },
 });
