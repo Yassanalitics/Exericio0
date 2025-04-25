@@ -32,8 +32,10 @@ export default function App() {
           name='AtoresScreen'
           component={AtoresScreen}
           options={{
+            headerTitleAlign: 'center',
+            headerTintColor: 'white',
             headerStyle:{
-              backgroundColor: '#ACD3A8'
+              backgroundColor: '#3E3F5B'
             },
             title: 'Atores',
             tabBarIcon: ({color, size}) => <Ionicons name='person' color={color} size={size}/>
@@ -44,7 +46,12 @@ export default function App() {
           component={TemporadasScreen}
           options={{
             title: 'Temporadas',
-            tabBarIcon: ({color, size}) => <Ionicons name='stepforward' color={color} size={size}/>
+            headerTitleAlign: 'center',
+            headerTintColor: 'white',
+            headerStyle:{
+              backgroundColor: '#3E3F5B'
+            },
+            tabBarIcon: ({color, size}) => <Ionicons name='settings-sharp' color={color} size={size}/>
           }}
           />
         </Tab.Navigator>

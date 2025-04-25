@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Card, Paragraph, Text, Title } from "react-native-paper";
 
-export default function LogoScreen() {
+export default function TemporadasScreen() {
   return (
     <ScrollView>
       <View style={StyleSheet.container}>
