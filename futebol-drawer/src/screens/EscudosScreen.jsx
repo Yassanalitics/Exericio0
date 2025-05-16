@@ -11,7 +11,7 @@ export default function EscudosScreen() {
     estadio: "Maracanã",
     mascote: "Urubu",
     cores: ["Vermelho", "Preto"]
-    };
+    };dd
     return (
       <PaperProvider> 
      <View style={styles.container}>
