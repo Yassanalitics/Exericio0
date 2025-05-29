@@ -43,7 +43,7 @@ export default function ListaProdutosScreen({ navigation, route }) {
         )}
         ListEmptyComponent={() => (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator animating={true}  size={80} />
+            <ActivityIndicator animating={true} color={MD2Colors.red800} size={80} />
             <Text variant='titleLarge'>Aguarde...</Text>
           </View>
         )}

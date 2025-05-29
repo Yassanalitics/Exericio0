@@ -11,8 +11,8 @@ export default function HomeScreen({ navigation, route }) {
     useEffect(() => {
         axios.get("https://dummyjson.com/products/category-list")
             .then(resposta => {
-                console.log(resposta.data.category)
-                setCategories(resposta.data.category)
+                console.log(resposta.data.category-list)
+                setCategories(resposta.data.category-list)
             })
             .catch(erro => {
                 alert('Eroo ao comunicar com a API!!')
@@ -39,7 +39,7 @@ export default function HomeScreen({ navigation, route }) {
                 )}
                 ListEmptyComponent={() => (
                     <View style={styles.loadingContainer}>
-                      <ActivityIndicator animating={true} size={80} />
+                      <ActivityIndicator animating={true} color={MD2Colors.red800} size={80} />
                       <Text variant='titleLarge'>Aguarde...</Text>
                     </View>
                   )}
