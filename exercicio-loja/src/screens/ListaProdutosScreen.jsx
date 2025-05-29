@@ -1,41 +1,47 @@
-
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import { ActivityIndicator, Avatar, Card, IconButton, MD2Colors, Text } from 'react-native-paper'
+import { ActivityIndicator, Card, IconButton, MD2Colors, Text } from 'react-native-paper'
 
-export default function HomeScreen({ navigation, route }) {
-  // Um estado para armazenar os usuário recebidos
-  const [usuarios, setUsuarios] = useState([])
 
-  // Faz algo quando o componente é montado
+export default function ListaProdutosScreen({ navigation, route }) {
+
+  const { categoria } = route.params
+  const [produtos, setProdutos] = useState([])
+
+
   useEffect(() => {
-    axios.get("https://dummyjson.com/users?delay=2000")
+    console.log('Categoria recebida:', categoria);
+
+    axios.get(`https://dummyjson.com/products/category/${categoria}`)
       .then(resposta => {
-        console.log(resposta.data.users)
-        setUsuarios(resposta.data.users)
+        console.log('Produtos recebidos:', resposta.data.products);
+        setProdutos(resposta.data.products)
       })
-      .catch(erro => {
-        alert('Erro ao comunicar com a API!!!')
-      })
+      .catch(erro => alert('Ocorreu um erro ao buscar '))
+
   }, [])
+
+
 
   return (
     <View style={styles.container}>
-
       <FlatList
-        data={usuarios}
+        data={produtos}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <Card
             style={{ margin: 5 }}
-            onPress={() => navigation.navigate('UsuarioScreen', item.id)}
+            onPress={() => navigation.navigate('ProdutoScreen', { produto: item })}
           >
             <Card.Title
-              title={item.firstName + " " + item.lastName}
-              subtitle={item.email}
-              left={(props) => <Avatar.Image {...props} source={{ uri: item.image }} />}
+              title={item.title}
+              subtitle={item.price}
               right={(props) => <IconButton icon="chevron-right" size={30} />}
+
             />
+
+
           </Card>
         )}
         ListEmptyComponent={() => (
