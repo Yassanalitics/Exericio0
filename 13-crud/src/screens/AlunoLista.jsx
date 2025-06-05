@@ -1,58 +1,56 @@
-import { StyleSheet, View } from 'react-native'
-import{Card,Text, Button} from "react-native-paper"
-import React, { useState } from 'react'
-import { FlatList } from 'react-native-gesture-handler'
 
-export default function AlunoLista(navigation) {
-    const [alunos, setAlunos] = useState([
-        {
-            id: '1',
-            nome: 'Gustavo',
-            cpf: '001.002.003-04',
-            emaIL: 'kdkjas@gmail.com',
-            telefone:'(61)998542604',
-            dataNascimento: '02/12/1352',
+import { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, View } from 'react-native'
+import { Button, Card, Text } from 'react-native-paper'
+import AlunoService from '../Services/AlunoService'
 
-        },
-        {
-            id: '1',
-            nome: 'Gustavo',
-            cpf: '001.002.003-04',
-            emaIL: 'teste@gmail.com',
-            telefone:'(61)998542604',
-            dataNascimento: '02/12/1352',
+export default function AlunoLista({ navigation, route }) {
 
-        },
-    ])
+  const [alunos, setAlunos] = useState([])
 
+  useEffect(() => {
+    buscarAlunos()
+  }, [])
+
+  async function buscarAlunos() {
+    const listaAlunos = await AlunoService.listar()
+    setAlunos(listaAlunos)
+  }
+
+  async function excluirAluno(id) {
+    await AlunoService.remover(id)
+    buscarAlunos()
+    alert('Aluno excluido com sucesso!')
+  }
 
   return (
     <View>
       <Button
-      style={{margin: 10}}
-      mode='contained'
-      icon='plus'
-      onPress={() => navigation.navigate('AlunoForm')}
+        style={{ margin: 10 }}
+        mode='contained'
+        icon='plus'
+        onPress={() => navigation.navigate('AlunoForm')}
       >
-     Cadastrar
+        Cadastrar
       </Button>
 
       <FlatList
-      data={alunos}
-      renderItem={({item}) => (
-        <Card>
+        data={alunos}
+        renderItem={({ item }) => (
+          <Card style={{ margin: 10 }}>
             <Card.Content>
-            <Text>ID: {item.id}</Text>
-            <Text>Nome: {item.nome}</Text>
-            <Text>CPF: {item.cpf}</Text> 
+              <Text>ID: {item.id}</Text>
+              <Text>Nome: {item.nome}</Text>
+              <Text>CPF: {item.cpf}</Text>
             </Card.Content>
             <Card.Actions>
-            <Butom icon='Pencil'>  </Butom>
-            <Butom icon='delete'> </Butom>
+              <Button icon='pencil' onPress={() => navigation.navigate('AlunoForm', item)}> </Button>
+              <Button icon='delete' onPress={() => excluirAluno(item.id)}> </Button>
             </Card.Actions>
-        </Card>
-      )}
+          </Card>
+        )}
       />
+
     </View>
   )
 }
