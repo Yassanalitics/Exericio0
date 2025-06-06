@@ -11,12 +11,12 @@ export default function StackRoutes() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Welcome" 
+        name="WelcomeScreen" 
         component={WelcomeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Login" 
+        name="LoginScreen" 
         component={LoginScreen}
         options={{ headerShown: false }}
       />
