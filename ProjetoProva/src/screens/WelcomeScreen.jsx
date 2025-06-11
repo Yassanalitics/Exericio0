@@ -25,16 +25,14 @@ export default function WelcomeScreen() {
         </Text>
       </View>
       
-        <TouchableOpacity 
-        style={styles.button}
-        onPress={() => {
-          console.log("Botão clicado!");
-          navigation.navigate('LoginScreen');
-        }}
-        
-        >
-        <Text  style={styles.buttonText} >Acessar</Text>
-        </TouchableOpacity>
+       <Button
+                       style={{ margin: 10 }}
+                       mode='contained'
+                       icon='plus'
+                       onPress={() => navigation.navigate('LoginScreen')}
+                     >
+                       Cadastrar
+                     </Button>
       
     </View>
   );

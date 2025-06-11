@@ -4,17 +4,18 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Animatable from "react-native-animatable"
 
 
-export default function LoginScreen(){
+export default function LoginScreen({navigation, route}){
     return(
         <View style={StyleSheet.container}>
             <Animatable.View
-            animation="zoomIn" 
+            animation="fadeInLeft" 
             dalay={500}
             style={styles.containerHeader}
             >
              <Text>Organize e Descubra suas obras favoritas</Text>
            </Animatable.View>
         </View>
+       
     )
 }
 const styles = StyleSheet.create({
