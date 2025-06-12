@@ -1,14 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 
 export default function WelcomeScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Animatable.Image
-                animation="bounceIn"
-                duration={1500}        
+        <Image
           source={require('../../src/assets/Logo.png')}
           style={styles.logo}
           resizeMode="contain"
@@ -19,16 +17,6 @@ export default function WelcomeScreen() {
         <Text style={styles.text}>
           Registre. Descubra. Reviva memórias com o CineJornal.
         </Text>
-      </View>
-
-      <View>
-      <Button
-      style={{margin: 10}}
-      mode='contained'
-      onPress={() => navigation.navigate('loginScreen')}
-      >
-     Acessar
-      </Button>
       </View>
     </View>
   );
@@ -52,11 +40,31 @@ const styles = StyleSheet.create({
   textContainer: {
     marginTop: 24,
     paddingHorizontal: 20,
-    borderRadius:15
   },
   text: {
     fontSize: 16,
     textAlign: 'center',
     color: '#333',
+    fontWeight:'bold',
+    
+   
   },
+  button:{
+   // position:"absolute",
+    backgroundColor: '#1c245c',
+    borderRadius: 50,
+    paddingVertical: 8,
+    width: '60%',
+    alignSelf: 'center',
+   //  bottom:'20%',
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop:'5%'
+  },
+  buttonText:{
+    fontSize: 18,
+    color: '#fff',
+    fontWeight:'bold',
+  }
 });
+
