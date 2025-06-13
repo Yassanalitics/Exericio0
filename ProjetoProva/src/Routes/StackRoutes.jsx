@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import CadastroScreen from '../screens/CadastroScreen';
 import LoginScreen from '../screens/LoginScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 
 
@@ -22,9 +23,15 @@ export default function StackRoutes() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Cadastro" 
+        name="CadastroScreen" 
         component={CadastroScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Catálogo" 
+        component={HomeScreen}
+      
+        
       />
     </Stack.Navigator>
   );

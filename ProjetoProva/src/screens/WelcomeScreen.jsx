@@ -1,12 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; 
+import * as Animatable from 'react-native-animatable';
+import { Button } from 'react-native-paper';
 
 export default function WelcomeScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation(); 
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image
+        <Animatable.Image
+          animation="flipInY"
+        
+          duration={6000} 
+          easing="linear"
           source={require('../../src/assets/Logo.png')}
           style={styles.logo}
           resizeMode="contain"
@@ -18,6 +26,15 @@ export default function WelcomeScreen() {
           Registre. Descubra. Reviva memórias com o CineJornal.
         </Text>
       </View>
+
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('LoginScreen')}
+        style={styles.button}
+        labelStyle={styles.buttonText}
+      >
+        Acessar
+      </Button>
     </View>
   );
 }
@@ -30,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logoContainer: {
-    width: '200%',
+    width: '100%',
     alignItems: 'center',
   },
   logo: {
@@ -45,26 +62,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: '#333',
-    fontWeight:'bold',
-    
-   
+    fontWeight: 'bold',
   },
-  button:{
-   // position:"absolute",
+  button: {
     backgroundColor: '#1c245c',
     borderRadius: 50,
-    paddingVertical: 8,
-    width: '60%',
-    alignSelf: 'center',
-   //  bottom:'20%',
-    alignItems:'center',
-    justifyContent:'center',
-    marginTop:'5%'
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginTop: 40,
+    alignItems: 'center',
   },
-  buttonText:{
+  buttonText: {
     fontSize: 18,
     color: '#fff',
-    fontWeight:'bold',
-  }
+    fontWeight: 'bold',
+  },
 });
-

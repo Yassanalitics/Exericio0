@@ -18,7 +18,7 @@ export default function CadastroScreen({ navigation, route }){
         try{
             await AsyncStorage.setItem('@cinejornal_user', JSON.stringify(user));
             Alert.alert ('Sucesso!', 'Cadastro realizado!')
-            navigation.navigate('HomeScreen')
+            navigation.navigate('LoginScreen')
         } catch (error){
             Alert.alert('Falha ao salvar usuário.');
                 }
@@ -36,7 +36,7 @@ export default function CadastroScreen({ navigation, route }){
             <TextInput 
             mode="outlined"
             label="Data de Nascimento" 
-            value={DataNacimento} 
+            value={DataNascimento} 
             onChangeText={setDataNascimento}
              style={styles.input} />
             <TextInput
@@ -58,7 +58,7 @@ export default function CadastroScreen({ navigation, route }){
             onPress={InfoCadastro}
             style={styles.button}
             >
-            Cadastrar
+            Salvar 
             </Button>
             
         </View>
