@@ -1,8 +1,22 @@
+<<<<<<< Updated upstream
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import * as Animatable from 'react-native-animatable';
 import { Button } from 'react-native-paper';
+=======
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { Button } from 'react-native-paper'
+import * as Animatable from "react-native-animatable";
+import { useNavigation,  } from "@react-navigation/native";
+>>>>>>> Stashed changes
 
 export default function WelcomeScreen() {
   const navigation = useNavigation(); 
@@ -11,11 +25,9 @@ export default function WelcomeScreen() {
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Animatable.Image
-          animation="flipInY"
-        
-          duration={6000} 
-          easing="linear"
-          source={require('../../src/assets/Logo.png')}
+          animation="zoomIn"
+          duration={2000}
+          source={require("../../src/assets/Logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -28,6 +40,7 @@ export default function WelcomeScreen() {
       </View>
 
       <Button
+
         mode="contained"
         onPress={() => navigation.navigate('LoginScreen')}
         style={styles.button}
@@ -42,9 +55,9 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logoContainer: {
     width: '100%',
