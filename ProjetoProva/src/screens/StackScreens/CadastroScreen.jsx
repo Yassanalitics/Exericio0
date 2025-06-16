@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { Button, TextInput, Title } from "react-native-paper";
+import { TextInputMask } from 'react-native-masked-text'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CadastroScreen({ navigation, route }){
@@ -38,13 +39,27 @@ export default function CadastroScreen({ navigation, route }){
             label="Data de Nascimento" 
             value={DataNascimento} 
             onChangeText={setDataNascimento}
-             style={styles.input} />
+             style={styles.input}
+             keyboardType='numeric'
+        placeholder='01/01/2000'
+        render={(props) => (
+          <TextInputMask
+            {...props}
+            type={'datetime'}
+            options={{
+              format: 'DD/MM/YYYY'
+            }}
+          />
+        )}
+         />
+             
             <TextInput
               mode="outlined"
               label="E-mail"
               value={email}
               onChangeText={setEmail}
               style={styles.input}
+              keyboardType='email-address'
             />
             <TextInput
             mode="outlined"
@@ -52,6 +67,7 @@ export default function CadastroScreen({ navigation, route }){
             value={senha}
             onChangeText={setSenha}
             style={styles.input}
+            
             />
             <Button 
             mode="contained"

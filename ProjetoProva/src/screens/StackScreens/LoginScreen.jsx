@@ -20,8 +20,11 @@ export default function LoginScreen({ navigation }) {
         const user = JSON.parse(userData);
 
         if (user.email === email && user.senha === senha) {
-          navigation.navigate("Catálogo");
-        } else {
+          navigation.navigate("AppDrawer", {
+            screen: "HomeTabs",
+            params: { screen: "Catálogo" },
+          });
+                  } else {
           Alert.alert("Erro", "Email ou senha inválidos.");
         }
       } else {

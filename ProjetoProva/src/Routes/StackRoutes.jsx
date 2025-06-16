@@ -1,11 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import WelcomeScreen from '../screens/WelcomeScreen';
-import CadastroScreen from '../screens/CadastroScreen';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
-
-
+import WelcomeScreen from '../screens/StackScreens/WelcomeScreen';
+import CadastroScreen from '../screens/StackScreens/CadastroScreen';
+import LoginScreen from '../screens/StackScreens/LoginScreen';
+import AppDrawer from './AppDrawer'
+import DescricaoFilme from '../screens/DrawerScreens/DescricaoFilme';
 
 const Stack = createStackNavigator();
 
@@ -28,10 +27,14 @@ export default function StackRoutes() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Catálogo" 
-        component={HomeScreen}
-      
-        
+        name="AppDrawer" 
+        component={AppDrawer}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+      name="DescricaoFilme"
+      component={DescricaoFilme}
+      options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

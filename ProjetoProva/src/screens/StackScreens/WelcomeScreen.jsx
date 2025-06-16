@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
@@ -15,7 +14,7 @@ export default function WelcomeScreen() {
         <Animatable.Image
           animation="zoomIn"
           duration={2000}
-          source={require("../../src/assets/Logo.png")}
+          source={require("../../assets/Logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
