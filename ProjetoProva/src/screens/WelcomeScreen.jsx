@@ -1,22 +1,10 @@
-<<<<<<< Updated upstream
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; 
 import * as Animatable from 'react-native-animatable';
 import { Button } from 'react-native-paper';
-=======
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { Button } from 'react-native-paper'
-import * as Animatable from "react-native-animatable";
-import { useNavigation,  } from "@react-navigation/native";
->>>>>>> Stashed changes
+
 
 export default function WelcomeScreen() {
   const navigation = useNavigation(); 
@@ -41,6 +29,7 @@ export default function WelcomeScreen() {
 
       <Button
 
+
         mode="contained"
         onPress={() => navigation.navigate('LoginScreen')}
         style={styles.button}
@@ -60,8 +49,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "200%",
+    alignItems: "center",
   },
   logo: {
     width: 300,
