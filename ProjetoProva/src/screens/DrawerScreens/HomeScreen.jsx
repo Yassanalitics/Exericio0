@@ -181,7 +181,6 @@ const estilos = StyleSheet.create({
   },
   campoPesquisa: {
     flex: 1,
-    marginRight: 10,
     backgroundColor: "#fff",
   },
   botaoBuscar: {
