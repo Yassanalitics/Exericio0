@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, FlatList, ActivityIndicator, Image, StyleSheet,
-} from "react-native";
+import { View, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import axios from "axios";
 import { TMDB_API_KEY } from "@env";
-import { Card, TextInput, Button } from "react-native-paper";
+import { Card, TextInput, Button, IconButton, List, Avatar, Text,} from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-
 
 export default function TelaInicial() {
   const [filmes, setFilmes] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [consulta, setConsulta] = useState("");
   const [carregandoPesquisa, setCarregandoPesquisa] = useState(false);
+  const [favoritosIds, setFavoritosIds] = useState([]);
 
   const navigation = useNavigation();
 
   useEffect(() => {
     buscarFilmesEmCartaz();
+    carregarFavoritos();
   }, []);
 
   async function buscarFilmesEmCartaz() {
@@ -46,19 +47,48 @@ export default function TelaInicial() {
     setCarregandoPesquisa(false);
   }
 
+  async function carregarFavoritos() {
+    try {
+      const favs = await AsyncStorage.getItem("@favoritos");
+      if (favs) {
+        setFavoritosIds(JSON.parse(favs).map((f) => f.id));
+      }
+    } catch (error) {
+      console.error("Erro ao carregar favoritos", error);
+    }
+  }
+
+  async function toggleFavorito(item) {
+    try {
+      const favs = await AsyncStorage.getItem("@favoritos");
+      let favoritos = favs ? JSON.parse(favs) : [];
+
+      const existe = favoritos.find((fav) => fav.id === item.id);
+
+      if (existe) {
+        favoritos = favoritos.filter((fav) => fav.id !== item.id);
+      } else {
+        favoritos.push(item);
+      }
+
+      await AsyncStorage.setItem("@favoritos", JSON.stringify(favoritos));
+      setFavoritosIds(favoritos.map((f) => f.id));
+    } catch (error) {
+      console.error("Erro ao alterar favoritos", error);
+    }
+  }
+
   if (carregando) {
     return (
-      <ActivityIndicator
-        size="large"
-        style={{ flex: 1, justifyContent: "center" }}
-        color="#6200ee"
-      />
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#6200ee" />
+      </View>
     );
   }
 
   return (
-    <View style={estilos.container}>
-      <View style={estilos.containerPesquisa}>
+    <View style={styles.container}>
+      <View style={styles.searchArea}>
         <TextInput
           label="Pesquisar filmes, séries..."
           mode="outlined"
@@ -66,17 +96,15 @@ export default function TelaInicial() {
           onChangeText={setConsulta}
           onSubmitEditing={buscarFilmes}
           returnKeyType="search"
-          left={<TextInput.Icon name="magnify" />}
-          style={estilos.campoPesquisa}
-          autoCorrect={false}
-          clearButtonMode="while-editing"
+          left={<TextInput.Icon icon="magnify" />}
+          style={styles.input}
         />
         <Button
           mode="contained"
           onPress={buscarFilmes}
           loading={carregandoPesquisa}
           disabled={carregandoPesquisa}
-          style={estilos.botaoBuscar}
+          style={styles.botaoBuscar}
         >
           Buscar
         </Button>
@@ -95,41 +123,35 @@ export default function TelaInicial() {
           ) {
             return null;
           }
+
+          const isFavorito = favoritosIds.includes(item.id);
+          const tipo = item.media_type === "movie" ? "Filme" : "Série";
+
           return (
-            <Card style={estilos.cartao} elevation={3}>
-              <View style={estilos.cartaoFilme}>
-                <Image
-                  style={estilos.poster}
-                  source={{
-                    uri: `https://image.tmdb.org/t/p/w200${item.poster_path}`,
-                  }}
-                />
-                <View style={{ flexShrink: 1 }}>
-                  <Text style={estilos.titulo}>{item.title || item.name}</Text>
-                  <Text style={estilos.subtitulo}>
-                    {item.release_date || item.first_air_date || ""}
-                  </Text>
-                  <Text style={estilos.tipoMidia}>
-                    {item.media_type === "movie"
-                      ? "Filme"
-                      : item.media_type === "tv"
-                      ? "Série"
-                      : ""}
-                  </Text>
-                </View>
-              </View>
-              <Card.Actions>
-                <Button
-                  mode="contained"
-                  onPress={() => navigation.navigate("DescricaoFilme", {
-                      id: item.id,
-                      tipo: "movie",
-                    })
-                  }
-                >
-                  Ver detalhes
-                </Button>
-              </Card.Actions>
+            <Card style={styles.card}>
+              <List.Item
+                title={item.title || item.name}
+                description={`${item.release_date || item.first_air_date || ""} • ${tipo}`}
+                left={() => (
+                  <Avatar.Image
+                    size={56}
+                    source={{ uri: `https://image.tmdb.org/t/p/w200${item.poster_path}` }}
+                  />
+                )}
+                right={() => (
+                  <IconButton
+                    icon={isFavorito ? "heart" : "heart-outline"}
+                    color={isFavorito ? "red" : "gray"}
+                    onPress={() => toggleFavorito(item)}
+                  />
+                )}
+                onPress={() =>
+                  navigation.navigate("DescricaoFilme", {
+                    id: item.id,
+                    tipo: item.media_type === "tv" ? "tv" : "movie",
+                  })
+                }
+              />
             </Card>
           );
         }}
@@ -138,15 +160,15 @@ export default function TelaInicial() {
   );
 }
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1c245c",
     padding: 10,
   },
-  cartaoFilme: {
-    flexDirection: "row",
-    marginBottom: 15,
+  centered: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 10,
   },
@@ -177,13 +199,15 @@ const estilos = StyleSheet.create({
   containerPesquisa: {
     flexDirection: "row",
     marginBottom: 15,
+    gap: 10,
     alignItems: "center",
   },
-  campoPesquisa: {
+  input: {
     flex: 1,
     backgroundColor: "#fff",
   },
-  botaoBuscar: {
-    justifyContent: "center",
+  card: {
+    marginBottom: 10,
+    borderRadius: 8,
   },
 });

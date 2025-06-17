@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Image, StyleSheet, ActivityIndicator } from "react-native";
+import { ScrollView, View, Image, StyleSheet, ActivityIndicator} from "react-native";
 import axios from "axios";
 import { TMDB_API_KEY } from "@env";
-import { Title, Text, Button } from "react-native-paper";
+import { Title, Text, Button, TextInput, Card } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DescricaoFilme() {
   const navigation = useNavigation();
@@ -13,6 +14,7 @@ export default function DescricaoFilme() {
 
   const [detalhes, setDetalhes] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [anotacoes, setAnotacoes] = useState("");
 
   useEffect(() => {
     axios
@@ -37,7 +39,33 @@ export default function DescricaoFilme() {
       </View>
     );
   }
-
+  async function salvarDiario() {
+    try {
+      const novosDados = {
+        id,
+        tipo,
+        titulo: detalhes.title || detalhes.name,
+        poster: detalhes.poster_path,
+        anotacoes,
+      };
+      const diariosSalvos = await AsyncStorage.getItem("@diario");
+      const diarios = diariosSalvos ? JSON.parse(diariosSalvos) : [];
+      const existe = diarios.find((item) => item.id === id);
+      let novosDiarios;
+      if (existe) {
+        novosDiarios = diarios.map((item) =>
+          item.id === id ? { ...item, anotacoes } : item
+        );
+      } else {
+        novosDiarios = [...diarios, novosDados];
+      }
+      await AsyncStorage.setItem("@diario", JSON.stringify(novosDiarios));
+      alert("Anotação salva no diário!");
+    } catch (erro) {
+      console.error("Erro ao salvar diário:", erro);
+      alert("Erro ao salvar anotação.");
+    }
+  }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#1c245c" }}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -45,7 +73,7 @@ export default function DescricaoFilme() {
         <Image
           source={{ uri: `https://image.tmdb.org/t/p/w500${detalhes.poster_path}` }}
           style={styles.image}
-          resizeMode="cover"
+          
         />
       </View>
 
@@ -63,8 +91,24 @@ export default function DescricaoFilme() {
       <Title style={styles.sectionTitle}>Avaliação</Title>
       <Text style={styles.text}>{detalhes.vote_average} / 10</Text>
 
-
-      <Button mode="contained" style={styles.button} onPress={() => navigation.goBack()}>
+  <Card style={{ marginTop: 24, backgroundColor: "#2e387e", padding: 10 }}>
+  <Text style={{ color: "#fff", marginBottom: 8 }}>Anotações</Text>
+  <TextInput
+    mode="outlined"
+    multiline
+    numberOfLines={4}
+    value={anotacoes}
+    onChangeText={setAnotacoes}
+    placeholder="Escreva algo sobre esse filme..."
+    style={{ backgroundColor: "#fff", marginBottom: 10 }}
+  />
+  <Button mode="contained" onPress={salvarDiario}>
+    Salvar no Diário
+  </Button>
+  
+ 
+</Card>
+<Button mode="contained" style={styles.button} onPress={() => navigation.goBack()}>
         Voltar
       </Button>
     </ScrollView>

@@ -4,11 +4,11 @@ import { View, StyleSheet, Alert } from "react-native";
 import { Button, TextInput, Title } from "react-native-paper";
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
+  const [nickName, setNickname] = useState("");
   const [senha, setSenha] = useState("");
 
   async function handleLogin() {
-    if (!email || !senha) {
+    if (!nickName || !senha) {
       Alert.alert("Erro", "Preencha os dois campos!");
       return;
     }
@@ -19,13 +19,13 @@ export default function LoginScreen({ navigation }) {
       if (userData) {
         const user = JSON.parse(userData);
 
-        if (user.email === email && user.senha === senha) {
+        if (user.nickName === nickName && user.senha === senha) {
           navigation.navigate("AppDrawer", {
             screen: "HomeTabs",
             params: { screen: "Catálogo" },
           });
                   } else {
-          Alert.alert("Erro", "Email ou senha inválidos.");
+          Alert.alert("Erro", "Nickname ou senha inválidos.");
         }
       } else {
         Alert.alert("Erro", "Nenhum usuário cadastrado.");
@@ -40,9 +40,9 @@ export default function LoginScreen({ navigation }) {
       <Title style={styles.title}>Login</Title>
 
       <TextInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
+        label="Nickname"
+        value={nickName}
+        onChangeText={setNickname}
         style={styles.input}
         autoCapitalize="none"
       />
