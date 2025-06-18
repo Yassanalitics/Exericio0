@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+} from "react-native";
 import axios from "axios";
 import { TMDB_API_KEY } from "@env";
-import { Card, TextInput, Button, IconButton, List, Avatar, Text,} from "react-native-paper";
+import {
+  Card,
+  TextInput,
+  Button,
+  IconButton,
+  List,
+} from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
@@ -115,28 +127,31 @@ export default function TelaInicial() {
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingBottom: 30 }}
         renderItem={({ item }) => {
-          if (
-            !item.poster_path ||
-            (item.media_type &&
-              item.media_type !== "movie" &&
-              item.media_type !== "tv")
-          ) {
-            return null;
-          }
+          if (!item.poster_path) return null;
 
           const isFavorito = favoritosIds.includes(item.id);
-          const tipo = item.media_type === "movie" ? "Filme" : "Série";
+          const tipo =
+            item.media_type === "tv"
+              ? "Série"
+              : item.media_type === "movie"
+              ? "Filme"
+              : "Filme";
 
           return (
-            <Card style={styles.card}>
+            <Card style={styles.card} elevation={3}>
               <List.Item
                 title={item.title || item.name}
                 description={`${item.release_date || item.first_air_date || ""} • ${tipo}`}
                 left={() => (
-                  <Avatar.Image
-                    size={56}
-                    source={{ uri: `https://image.tmdb.org/t/p/w200${item.poster_path}` }}
-                  />
+                  <View style={styles.posterContainer}>
+                    <Image
+                      source={{
+                        uri: `https://image.tmdb.org/t/p/w200${item.poster_path}`,
+                      }}
+                      style={styles.poster}
+                      resizeMode="cover"
+                    />
+                  </View>
                 )}
                 right={() => (
                   <IconButton
@@ -148,9 +163,10 @@ export default function TelaInicial() {
                 onPress={() =>
                   navigation.navigate("DescricaoFilme", {
                     id: item.id,
-                    tipo: item.media_type === "tv" ? "tv" : "movie",
+                    tipo: tipo === "Série" ? "tv" : "movie",
                   })
                 }
+                style={{ paddingVertical: 8 }}
               />
             </Card>
           );
@@ -170,44 +186,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 10,
   },
-  poster: {
-    width: 80,
-    height: 120,
-    borderRadius: 6,
-    marginRight: 10,
-  },
-  titulo: {
-    fontSize: 16,
-    flexShrink: 1,
-    color: "#000000",
-    fontWeight: "bold",
-  },
-  subtitulo: {
-    color: "#000000",
-  },
-  tipoMidia: {
-    marginTop: 4,
-    fontStyle: "italic",
-    color: "#aaa",
-  },
-  cartao: {
-    paddingTop: 15,
-    marginBottom: 15,
-  },
-  containerPesquisa: {
+  searchArea: {
     flexDirection: "row",
     marginBottom: 15,
-    gap: 10,
     alignItems: "center",
+    gap: 10,
   },
   input: {
     flex: 1,
     backgroundColor: "#fff",
   },
+  botaoBuscar: {
+    marginLeft: 8,
+  },
+  posterContainer: {
+    width: 60,
+    height: 90,
+    borderRadius: 6,
+    overflow: "hidden",
+    marginRight: 10,
+  },
+  poster: {
+    width: "100%",
+    height: "100%",
+  },
   card: {
     marginBottom: 10,
     borderRadius: 8,
+    backgroundColor: "#2b336b",
   },
 });
