@@ -11,6 +11,7 @@ export default function PerfilScreen({ navigation }) {
     senha: "",
     nickname: "",
   });
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const carregandoDados = async () => {
     try {
@@ -71,7 +72,7 @@ export default function PerfilScreen({ navigation }) {
           try {
             await AsyncStorage.removeItem("@cinejornal_user");
             Alert.alert("Sucesso", "Cadastro excluído!");
-            navigation.navigate("CadastroScreen"); // ou outra tela inicial
+            navigation.navigate("CadastroScreen");
           } catch (error) {
             Alert.alert("Erro", "Não foi possível excluir.");
           }
@@ -123,8 +124,14 @@ export default function PerfilScreen({ navigation }) {
         value={user.senha}
         onChangeText={(text) => setUser({ ...user, senha: text })}
         style={styles.input}
-        secureTextEntry
+        secureTextEntry={!mostrarSenha}
         mode="outlined"
+        right={
+                  <TextInput.Icon
+                    icon={mostrarSenha ? 'eye-off' : 'eye'}
+                    onPress={() => setMostrarSenha(!mostrarSenha)}
+                  />
+                }
       />
 
       <Button mode="contained" onPress={salvarNovo} style={styles.button}>

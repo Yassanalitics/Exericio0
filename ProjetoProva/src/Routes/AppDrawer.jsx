@@ -12,7 +12,19 @@ const Drawer = createDrawerNavigator();
 
 export default function AppDrawer(){
     return(
-        <Drawer.Navigator>
+        <Drawer.Navigator
+         screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#181f4a',
+        },
+        drawerActiveTintColor: '#fff', 
+        drawerInactiveTintColor: '#ccc', 
+        headerStyle: {
+          backgroundColor: '#181f4a', 
+        },
+        headerTintColor: '#fff', 
+      }}
+         >
             <Drawer.Screen
             name="CineJornal"
             component={HomeTabs}

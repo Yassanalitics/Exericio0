@@ -7,11 +7,10 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import axios from "axios";
-import { TMDB_API_KEY } from "@env";
 import { Card, Button, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../api";
 
 export default function SeriesScreen() {
   const [series, setSeries] = useState([]);
@@ -27,8 +26,7 @@ export default function SeriesScreen() {
   async function buscarSeriesNoAr() {
     setCarregando(true);
     try {
-      const url = `https://api.themoviedb.org/3/tv/on_the_air?api_key=${TMDB_API_KEY}&language=pt-BR&page=1`;
-      const resposta = await axios.get(url);
+      const resposta = await api.get("/tv/on_the_air?language=pt-BR&page=1");
       setSeries(resposta.data.results);
     } catch (erro) {
       console.error(erro);
@@ -69,14 +67,14 @@ export default function SeriesScreen() {
 
   if (carregando) {
     return (
-      <View style={estilos.loadingContainer}>
+      <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#6200ee" />
       </View>
     );
   }
 
   return (
-    <View style={estilos.container}>
+    <View style={styles.container}>
       <FlatList
         data={series}
         keyExtractor={(item) => item.id.toString()}
@@ -87,11 +85,11 @@ export default function SeriesScreen() {
           const isFavorito = favoritosIds.includes(item.id);
 
           return (
-            <Card style={estilos.cartao} elevation={3}>
-              <View style={estilos.serieCard}>
-                <View style={estilos.posterContainer}>
+            <Card style={styles.cartao} elevation={3}>
+              <View style={styles.serieCard}>
+                <View style={styles.posterContainer}>
                   <Image
-                    style={estilos.poster}
+                    style={styles.poster}
                     source={{
                       uri: `https://image.tmdb.org/t/p/w200${item.poster_path}`,
                     }}
@@ -99,15 +97,15 @@ export default function SeriesScreen() {
                   />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={estilos.titulo}>{item.name}</Text>
-                  <Text style={estilos.subtitulo}>
+                  <Text style={styles.titulo}>{item.name}</Text>
+                  <Text style={styles.subtitulo}>
                     {item.first_air_date || ""}
                   </Text>
-                  <Text style={estilos.tipoMidia}>Série</Text>
+                  <Text style={styles.tipoMidia}>Série</Text>
                 </View>
                 <IconButton
                   icon={isFavorito ? "heart" : "heart-outline"}
-                  color={isFavorito ? "red" : "gray"}
+                  iconColor={isFavorito ? "red" : "white"}
                   onPress={() => toggleFavorito(item)}
                 />
               </View>
@@ -132,7 +130,7 @@ export default function SeriesScreen() {
   );
 }
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1c245c",
@@ -166,7 +164,7 @@ const estilos = StyleSheet.create({
     marginBottom: 4,
   },
   subtitulo: {
-    color: "#ccc",
+    color: "#fff",
     marginBottom: 2,
   },
   tipoMidia: {

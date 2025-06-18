@@ -10,7 +10,16 @@ const Tab = createBottomTabNavigator();
 
 export default function HomeTabs() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator 
+    screenOptions={{
+      headerShown: false,
+      tabBarStyle: {
+        backgroundColor: '#181f4a', 
+      },
+      tabBarActiveTintColor: '#fff', 
+      tabBarInactiveTintColor: '#aaa',  
+    }}
+    >
       <Tab.Screen 
         name="Em cartaz" 
         component={HomeScreen}

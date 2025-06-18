@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Image, StyleSheet, ActivityIndicator} from "react-native";
-import axios from "axios";
-import { TMDB_API_KEY } from "@env";
+import { Alert, ScrollView, View, Image, StyleSheet, ActivityIndicator} from "react-native";
 import { Title, Text, Button, TextInput, Card } from "react-native-paper";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../api";
 
 export default function DescricaoFilme() {
   const navigation = useNavigation();
@@ -17,13 +16,19 @@ export default function DescricaoFilme() {
   const [anotacoes, setAnotacoes] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=${TMDB_API_KEY}&language=pt-BR`)
-      .then((res) => setDetalhes(res.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [id, tipo]);
-
+    buscarDetalhes();
+  }, []);
+  
+  async function buscarDetalhes() {
+    setLoading(true);
+    try {
+      const resposta = await api.get(`/${tipo}/${id}?language=pt-BR`);
+      setDetalhes(resposta.data);
+    } catch (erro) {
+      console.error("Erro ao buscar detalhes:", erro);
+    }
+    setLoading(false);
+  }
   if (loading) {
     return (
       <View style={styles.center}>
@@ -60,10 +65,10 @@ export default function DescricaoFilme() {
         novosDiarios = [...diarios, novosDados];
       }
       await AsyncStorage.setItem("@diario", JSON.stringify(novosDiarios));
-      alert("Anotação salva no diário!");
+      Alert.alert("Sucesso", "Anotação salva no diário!");
     } catch (erro) {
       console.error("Erro ao salvar diário:", erro);
-      alert("Erro ao salvar anotação.");
+      Alert.alert("Erro", "Não foi possivel salver");
     }
   }
   return (
@@ -130,7 +135,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: "100%",
-    height: 350,
+    height: 500 ,
     borderRadius: 8,
     overflow: "hidden",
     marginBottom: 16,
@@ -141,7 +146,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   title: {
-    color: "#CF0F47",
+    color: "#fff",
     fontWeight: "bold",
     fontSize: 24,
     marginBottom: 4,
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   sectionTitle: {
-    color: "#CF0F47",
+    color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
