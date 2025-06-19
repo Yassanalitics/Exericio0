@@ -22,19 +22,12 @@ export default function SeriesScreen() {
       const resposta = await api.get("/tv/on_the_air", {
         params: { language: "pt-BR", page: 1 },
       });
-      if (!dados.overview || dados.overview.trim() === "") {
-        const respostaIngles = await api.get(`/${tipo}/${id}`, {
-          params: { language: "en-US" },
-        });
-        dados = respostaIngles.data;
-      }
       setSeries(resposta.data.results);
     } catch (erro) {
       console.error(erro);
     }
     setCarregando(false);
   }
-
   async function carregarFavoritos() {
     try {
       const favs = await AsyncStorage.getItem("@favoritos");

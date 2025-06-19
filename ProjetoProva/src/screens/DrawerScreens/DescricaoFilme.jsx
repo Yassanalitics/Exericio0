@@ -23,23 +23,26 @@ export default function DescricaoFilme() {
   
   async function buscarDetalhes() {
     setLoading(true);
+    let dados = null; // <-- Declare aqui fora
     try {
       const respostaPt = await api.get(`/${tipo}/${id}`, {
         params: { language: "pt-BR" },
       });
   
-      let dados = respostaPt.data;
+      dados = respostaPt.data;
+  
       if (!dados.overview || dados.overview.trim() === "") {
         const respostaEn = await api.get(`/${tipo}/${id}`, {
           params: { language: "en-US" },
         });
+  
         dados = {
           ...respostaEn.data,
           title: respostaPt.data.title || respostaPt.data.name,
         };
       }
-  
-      setDetalhes(dados);
+
+      setDetalhes(dados); 
     } catch (erro) {
       console.error("Erro ao buscar detalhes:", erro);
       Alert.alert("Erro", "Não foi possível carregar os detalhes.");
@@ -47,6 +50,7 @@ export default function DescricaoFilme() {
       setLoading(false);
     }
   }
+  
   if (loading) {
     return (
       <View style={styles.center}>
