@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { TextInput, Button, Title } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function PerfilScreen({ navigation }) {
   const [user, setUser] = useState({
@@ -72,7 +73,7 @@ export default function PerfilScreen({ navigation }) {
           try {
             await AsyncStorage.removeItem("@cinejornal_user");
             Alert.alert("Sucesso", "Cadastro excluído!");
-            navigation.navigate("CadastroScreen");
+            navigation.navigate("LoginScreen");
           } catch (error) {
             Alert.alert("Erro", "Não foi possível excluir.");
           }
@@ -144,6 +145,9 @@ export default function PerfilScreen({ navigation }) {
         textColor="red"
       >
         Excluir Conta
+      </Button>
+      <Button mode="contained" style={styles.voltar} onPress={() => navigation.goBack()}>
+        Voltar
       </Button>
     </View>
   );

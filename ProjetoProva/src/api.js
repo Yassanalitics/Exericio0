@@ -8,5 +8,7 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+console.log("Bearer Token:", TMDB_BEARER_TOKEN);
+
 
 export default api;

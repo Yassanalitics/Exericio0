@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, StyleSheet, ActivityIndicator, Image} from "react-native";
 import api from "../../api";
-import { Card, TextInput, Button, IconButton, List } from "react-native-paper";
+import { Alert, Card, TextInput, Button, IconButton, List } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,9 +22,12 @@ export default function TelaInicial() {
   async function buscarFilmesEmCartaz() {
     setCarregando(true);
     try {
-      const resposta = await api.get(
-        "/movie/now_playing?language=pt-BR&page=1"
-      );
+      const resposta = await api.get("/movie/now_playing", {
+        params: {
+          language: "pt-BR",
+          page: 1,
+        }
+      });
       setFilmes(resposta.data.results);
     } catch (erro) {
       console.error("Erro ao buscar filmes em cartaz:", erro.message);
@@ -36,14 +39,11 @@ export default function TelaInicial() {
     if (!consulta.trim()) return;
     setCarregandoPesquisa(true);
     try {
-      const resposta = await api.get(
-        `/search/multi?language=pt-BR&page=1&query=${encodeURIComponent(
-          consulta
-        )}`
-      );
+      const resposta = await api.get(`/search/multi?language=pt-BR&page=1&query=${encodeURIComponent(consulta)}`);
       setFilmes(resposta.data.results);
-    } catch (erro) {
+    } catch (erro) {  
       console.error("Erro ao buscar filmes:", erro.message);
+      Alert.alert("Erro", "Ero ao buscar filmes")
     }
     setCarregandoPesquisa(false);
   }
@@ -154,7 +154,7 @@ export default function TelaInicial() {
                   onPress={() =>
                     navigation.navigate("DescricaoFilme", {
                       id: item.id,
-                      tipo: tipo === "Série" ? "tv" : "movie",
+                      tipo: item.media_type ||  "movie",
                     })
                   }
                 >

@@ -16,18 +16,36 @@ export default function DescricaoFilme() {
   const [anotacoes, setAnotacoes] = useState("");
 
   useEffect(() => {
+    console.log("ID recebido:", id);
+  console.log("Tipo recebido:", tipo);
     buscarDetalhes();
   }, []);
   
   async function buscarDetalhes() {
     setLoading(true);
     try {
-      const resposta = await api.get(`/${tipo}/${id}?language=pt-BR`);
-      setDetalhes(resposta.data);
+      const respostaPt = await api.get(`/${tipo}/${id}`, {
+        params: { language: "pt-BR" },
+      });
+  
+      let dados = respostaPt.data;
+      if (!dados.overview || dados.overview.trim() === "") {
+        const respostaEn = await api.get(`/${tipo}/${id}`, {
+          params: { language: "en-US" },
+        });
+        dados = {
+          ...respostaEn.data,
+          title: respostaPt.data.title || respostaPt.data.name,
+        };
+      }
+  
+      setDetalhes(dados);
     } catch (erro) {
       console.error("Erro ao buscar detalhes:", erro);
+      Alert.alert("Erro", "Não foi possível carregar os detalhes.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
   if (loading) {
     return (

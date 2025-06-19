@@ -25,7 +25,7 @@ export default function HomeTabs() {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="film-outline" size={size} color={color} />
+            <Ionicons name="camera-outline" size={size} color={color} />
 
           ),
         }}
@@ -45,7 +45,7 @@ export default function HomeTabs() {
         component={SeriesScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="film-outline" size={size} color={color} />
+            <Ionicons name="tv-outline" size={size} color={color} />
 
           ),
         }}

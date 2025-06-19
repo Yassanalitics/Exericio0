@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-} from "react-native";
+import {View, Text, FlatList, ActivityIndicator, Image, StyleSheet } from "react-native";
 import { Card, Button, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,7 +19,15 @@ export default function SeriesScreen() {
   async function buscarSeriesNoAr() {
     setCarregando(true);
     try {
-      const resposta = await api.get("/tv/on_the_air?language=pt-BR&page=1");
+      const resposta = await api.get("/tv/on_the_air", {
+        params: { language: "pt-BR", page: 1 },
+      });
+      if (!dados.overview || dados.overview.trim() === "") {
+        const respostaIngles = await api.get(`/${tipo}/${id}`, {
+          params: { language: "en-US" },
+        });
+        dados = respostaIngles.data;
+      }
       setSeries(resposta.data.results);
     } catch (erro) {
       console.error(erro);

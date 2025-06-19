@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-} from "react-native";
+import {View, Text, FlatList, ActivityIndicator, Image, StyleSheet,} from "react-native";
 import { Card, Button, IconButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
